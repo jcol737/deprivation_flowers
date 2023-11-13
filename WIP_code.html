@@ -33,7 +33,7 @@
         // Function to map a value to a size
         function valueToSize(value) {
             // Normalize the value to a number between 0 and 1
-            var normalizedValue = (value - 1) / (6181 - 1);
+            var normalizedValue = 1 - ((value - 1) / (6181 - 1));
 
             // Map the normalized value to a size
             var size = normalizedValue * (90 - 30) + 30;
@@ -87,10 +87,10 @@
         // Function to map a value to a radius
         function valueToRadius(value) {
             // Normalize the value to a number between 0 and 1
-            var normalizedValue = (value - 1) / (6181 - 1);
+            var normalizedValue = 1 - ((value - 1) / (6181 - 1));
         
             // Map the normalized value to a radius
-            var radius = normalizedValue * valueToSize(6181);
+            var radius = normalizedValue * (100 - 30) + 30;
         
             return radius;
         }
@@ -102,16 +102,18 @@
         let canvas = document.getElementById('flowerCanvas');
         let ctx = canvas.getContext('2d');
 
-        drawCircle(ctx, 250, 250, valueToRadius(4000), valueToColor(4000));  // Draw the circle
+        // mock-flower for DZ 76019998
+
+        drawCircle(ctx, 250, 250, valueToRadius(5207), valueToColor(5207));  // Draw the circle
 
         var petals = [
-            {width: valueToSize(50), height: valueToSize(50)*2, color: valueToColor(50)},
-            {width: valueToSize(500), height: valueToSize(500)*2, color: valueToColor(500)},
-            {width: valueToSize(1000), height: valueToSize(1000)*2, color: valueToColor(1000)},
-            {width: valueToSize(6181), height: valueToSize(6181)*2, color: valueToColor(6181)},
-            {width: valueToSize(5000), height: valueToSize(5000)*2, color: valueToColor(5000)},
-            {width: valueToSize(4000), height: valueToSize(4000)*2, color: valueToColor(4000)},
-            {width: valueToSize(2500), height: valueToSize(2500)*2, color: valueToColor(2500)}
+            {width: valueToSize(4755), height: valueToSize(4755)*2, color: valueToColor(4755)}, // Employment
+            {width: valueToSize(5274), height: valueToSize(5274)*2, color: valueToColor(5274)}, // Income
+            {width: valueToSize(5529), height: valueToSize(5529)*2, color: valueToColor(5529)}, // Crime
+            {width: valueToSize(5755), height: valueToSize(5755)*2, color: valueToColor(5755)}, // Housing
+            {width: valueToSize(5138), height: valueToSize(5138)*2, color: valueToColor(5755)}, // Health
+            {width: valueToSize(4120), height: valueToSize(4120)*2, color: valueToColor(4120)}, // Education
+            {width: valueToSize(4541), height: valueToSize(4541)*2, color: valueToColor(4541)} // Access
         ];
         drawFlower(ctx, 250, 250, petals);  // Draw a flower with 7 oblong-shaped petals
 
