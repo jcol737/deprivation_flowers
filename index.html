@@ -245,60 +245,14 @@
                             DHB: ${p.dhb2015__2}<br>
                             GED: ${p.ged2020n_2}<br>
                             TA: ${p.ta2020na_1}`;
-                layer.bindPopup(desc)
-
-                // clear the canvas from previous features
-                //context.clearRect(0, 0, canvas.width, canvas.height);
-
-                // Create a canvas
-                var canvas = document.createElement('canvas');
-                canvas.width = 500;
-                canvas.height = 500;
-                var ctx = canvas.getContext('2d');
-
-                // circle
-                drawCircle(ctx, 250, 250, valueToRadius(p.IMD18), valueToColor(p.IMD18));  // Draw the circle
-                // flower
-                var petals = [
-                    {width: valueToSize(p.Employment), 
-                        height: valueToSize(p.Employment)*2, 
-                        color: valueToColor(p.Employment)}, // Employment
-                    {width: valueToSize(p.Income), 
-                        height: valueToSize(p.Income)*2, 
-                        color: valueToColor(p.Income)}, // Income
-                    {width: valueToSize(p.Crime), 
-                        height: valueToSize(p.Crime)*2, 
-                        color: valueToColor(p.Crime)}, // Crime
-                    {width: valueToSize(p.Housing), 
-                        height: valueToSize(p.Housing)*2, 
-                        color: valueToColor(p.Housing)}, // Housing
-                    {width: valueToSize(p.Health), 
-                        height: valueToSize(p.Health)*2, 
-                        color: valueToColor(p.Health)}, // Health
-                    {width: valueToSize(p.Education), 
-                        height: valueToSize(p.Education)*2, 
-                        color: valueToColor(p.Education)}, // Education
-                    {width: valueToSize(p.Access), 
-                        height: valueToSize(p.Access)*2, 
-                        color: valueToColor(p.Access)} // Access
-                ];
-                drawFlower(ctx, 250, 250, petals);  // Draw a flower with 7 oblong-shaped petals
-
-                // Create an image from the canvas
-                var image = new Image();
-                image.src = canvas.toDataURL();
-
-                // Wait for the image to load
-                image.onload = function() {
-                    // Create an incon from the image
-                    var icon = L.icon({
-                        iconUrl: image.src,
-                        iconSize: [100, 100], // Size of the icon
-                    });
-
-                    // Add a marker with the icon to the map at the specific coordinate
-                    var center = turf.centerOfMass(feature).geometry.coordinates.reverse();
-                    L.marker(center, { icon: icon }).addTo(flowersLayer).bindTooltip(desc)
+                            layer.bindPopup(desc)
+                var icon = L.icon({
+                    className: 'flower',
+                    iconUrl: `flowers/${p.DZ2018}.png`,
+                    iconSize: [100, 100]
+                });
+                var center = turf.centerOfMass(feature).geometry.coordinates.reverse();
+                L.marker(center, { icon: icon }).addTo(flowersLayer).bindTooltip(desc)
                 }
 
             },
