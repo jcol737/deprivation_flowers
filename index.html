@@ -245,7 +245,7 @@
                             DHB: ${p.dhb2015__2}<br>
                             GED: ${p.ged2020n_2}<br>
                             TA: ${p.ta2020na_1}`;
-                            layer.bindPopup(desc)
+                layer.bindPopup(desc)
                 var icon = L.icon({
                     className: 'flower',
                     iconUrl: `flowers/${p.DZ2018}.png`,
@@ -253,8 +253,6 @@
                 });
                 var center = turf.centerOfMass(feature).geometry.coordinates.reverse();
                 L.marker(center, { icon: icon }).addTo(flowersLayer).bindTooltip(desc)
-                }
-
             },
             style: function (feature) {
                 return {
