@@ -14,9 +14,12 @@
 
     <script src='https://unpkg.com/@turf/turf@6/turf.min.js'></script>
 
+    <!-- <script src="https://cdn.jsdelivr.net/npm/h3-js@4.1.0/dist/browser/h3-js.min.js"></script> -->
+
     <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
+
 
     <style>
         body,
@@ -40,7 +43,7 @@
             color: white;
             border-radius: 5px;
             padding: 10px;
-            background-color:rgba(0, 0, 0, 0.8);
+            background-color: rgba(0, 0, 0, 0.8);
             font-size: 1rem;
             font-family: Arial, Helvetica, sans-serif;
             text-shadow: 2px 2px #000000;
@@ -48,7 +51,7 @@
         }
 
         .legend {
-            background-color: rgba(0,0,0,0.8);
+            background-color: rgba(0, 0, 0, 0.8);
             line-height: 18px;
             color: white;
             width: 300px;
@@ -83,7 +86,7 @@
 <body>
     <h1 id="title">NZIMD 2018 Deprivation Flowers</h1>
     <div id="map"></div>
-    </div>
+
     <script>
         var map = L.map('map', {
             zoom: 6,
@@ -131,7 +134,7 @@
         });
 
         var imdLayer = L.layerGroup().addTo(map);
-        var flowersLayer = L.markerClusterGroup({ disableClusteringAtZoom: 14, spiderfyOnMaxZoom: false }).addTo(map);
+        var flowersLayer = L.markerClusterGroup({ disableClusteringAtZoom: 16, spiderfyOnMaxZoom: false }).addTo(map); // 14
 
         var overlayMaps = {
             "NZIMD 2018": imdLayer,
@@ -168,16 +171,18 @@
                     iconSize: [100, 100]
                 });
                 var center = turf.centerOfMass(feature).geometry.coordinates.reverse();
-                L.marker(center, { icon: icon }).addTo(flowersLayer).bindTooltip(desc)
+                var marker = L.marker(center, { icon: icon }).addTo(flowersLayer).bindTooltip(desc)
 
-                // map.on('zoomend', function() {
-                //     var currentZoom = map.getZoom();
-                //     var newIconSize = currentZoom * 10; // Adjust size as needed
+                // basic function to increase the size of the flower icons as the user zooms into the map
+                map.on('zoomend', function() {
+                    var currentZoom = map.getZoom();
+                    var newIconSize = currentZoom * 15; // Adjust size as needed
 
-                //     // Update the icon size
-                //     icon.options.iconSize = [newIconSize, newIconSize];
-                //     marker.setIcon(icon);
-                // });
+                    // Update the icon size
+                    icon.options.iconSize = [newIconSize, newIconSize];
+                    marker.setIcon(icon);
+                });
+
             },
             style: function (feature) {
                 return {
@@ -190,7 +195,6 @@
             }
         });
         omnivore.topojson('https://uoa-eresearch.github.io/cancermap/data/IMD18.topojson', null, customLayer).addTo(imdLayer);
-
 
         var legend = L.control({ position: 'bottomright' });
 
