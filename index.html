@@ -144,93 +144,9 @@
 
         var NZIMD_cmap = chroma.scale("BuPu").domain([1, 6181])
 
-        // functions for drawing the petals
-        // flower
-        // colour scheme for petals
-        // same range for all, ranking ranging from 1 to 6181
-        // Define your color palette
-        var colorScale = chroma.scale('BuPu');
-
-        // Function to map a value to a color
-        function valueToColor(value) {
-            // Normalize the value to a number between 0 and 1
-            var normalizedValue = (value - 1) / (6181 - 1);
-        
-            // Get the color for this value from the color scale
-            var color = colorScale(normalizedValue).hex();
-
-        return color;
-        }
-
-        // Function to map a value to a size
-        function valueToSize(value) {
-            // Normalize the value to a number between 0 and 1
-            var normalizedValue = 1 - ((value - 1) / (6181 - 1));
-
-            // Map the normalized value to a size
-            var size = normalizedValue * (90 - 30) + 30;
-
-            return size;
-        }
-
-        // code for the flowers
-        function drawPetal(ctx, x, y, width, height, color) {
-            ctx.beginPath();
-            ctx.moveTo(x, y);  // Start at the bottom of the petal
-            ctx.quadraticCurveTo(x + width / 2, y + height / 2, x, y + height);  // Quadratic curve to the top of the petal
-            ctx.quadraticCurveTo(x - width / 2, y + height / 2, x, y);  // Quadratic curve to the bottom right of the petal
-            ctx.closePath();  // Close the path
-            ctx.fillStyle = color;
-            ctx.fill();
-            ctx.lineWidth = 1; // Set the border thickness
-            ctx.strokeStyle = 'lightgrey'; //Set the border color
-            ctx.stroke();
-        }
-
-        function drawFlower(ctx, x, y, petals) {
-            for (let i = 0; i < petals.length; i++) {
-                // Angle of each petal
-                let angle = (Math.PI * 2 / petals.length) * i;
-                // Save the current context state
-                ctx.save();
-                // Move the context origin to the flower's center
-                ctx.translate(x, y);
-                // Rotate the context so the petal is oriented correctly
-                ctx.rotate(angle);
-                // Draw the petal with the corresponding color and dimensions
-                let petal = petals[i];
-                drawPetal(ctx, 0, 0, petal.width, petal.height, petal.color);
-                // Restore the context state
-                ctx.restore();
-            }
-        }
-
-
-        // circle
-        // Function to draw a circle
-        function drawCircle(ctx, x, y, radius, color) {
-            ctx.beginPath();
-            ctx.arc(x, y, radius, 0, 2 * Math.PI, false);
-            ctx.closePath(); // Close the path
-            ctx.fillStyle = color;
-            ctx.fill();
-        }
-
-        // Function to map a value to a radius
-        function valueToRadius(value) {
-            // Normalize the value to a number between 0 and 1
-            var normalizedValue = 1 - ((value - 1) / (6181 - 1));
-        
-            // Map the normalized value to a radius
-            var radius = normalizedValue * (100 - 30) + 30;
-        
-            return radius;
-        }
-
-
         var customLayer = L.geoJson(null, {
             onEachFeature: function (feature, layer) {
-                console.log(feature)
+                // console.log(feature)
                 var p = feature.properties;
                 // Ideally update this to match the order from the IMD
                 var desc = `Datazone: <b>${p.DZ2018}</b><hr>
@@ -253,6 +169,15 @@
                 });
                 var center = turf.centerOfMass(feature).geometry.coordinates.reverse();
                 L.marker(center, { icon: icon }).addTo(flowersLayer).bindTooltip(desc)
+
+                // map.on('zoomend', function() {
+                //     var currentZoom = map.getZoom();
+                //     var newIconSize = currentZoom * 10; // Adjust size as needed
+
+                //     // Update the icon size
+                //     icon.options.iconSize = [newIconSize, newIconSize];
+                //     marker.setIcon(icon);
+                // });
             },
             style: function (feature) {
                 return {
