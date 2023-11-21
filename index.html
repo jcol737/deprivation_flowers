@@ -176,7 +176,7 @@
                 // Add this code if needed for the H3 version
                 // Convert the marker's position to an H3 index
                 var resolution = 6;
-                var h3Index = h3.geoToH3(center.lat, center.lng, resolution);
+                var h3Index = h3.latLngToCell(center.lat, center.lng, resolution);
                 marker.h3Index = h3Index;
 
                 // This version here is currently committed in the zoom_level branch
