@@ -51,7 +51,7 @@ fetch(rawbase + jsonloc)
             // Function to map a value to a size
             function valueToSize(value) {
                 // Normalize the value to a number between 0 and 1
-                var normalizedValue = 1 - ((value - 1) / (6181 - 1));
+                var normalizedValue = (value - 1) / (6181 - 1);
 
                 // Map the normalized value to a size
                 var size = normalizedValue * (90 - 30) + 30;
@@ -107,7 +107,7 @@ fetch(rawbase + jsonloc)
             // Function to map a value to a radius
             function valueToRadius(value) {
                 // Normalize the value to a number between 0 and 1
-                var normalizedValue = 1 - ((value - 1) / (6181 - 1));
+                var normalizedValue = (value - 1) / (6181 - 1);
 
                 // Map the normalized value to a radius
                 var radius = normalizedValue * (100 - 30) + 30;
