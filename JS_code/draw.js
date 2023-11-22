@@ -69,7 +69,7 @@ fetch(rawbase + jsonloc)
                 context.fillStyle = color;
                 context.fill();
                 context.lineWidth = 1; // Set the border thickness
-                context.strokeStyle = 'lightgrey'; //Set the border color
+                context.strokeStyle = 'grey'; //Set the border color
                 context.stroke();
             }
 
@@ -97,8 +97,11 @@ fetch(rawbase + jsonloc)
                 context.beginPath();
                 context.arc(x, y, radius, 0, 2 * Math.PI, false);
                 context.closePath(); // Close the path
+                context.lineWidth = 0.5; // Set the border thickness
+                context.strokeStyle = 'grey'; //Set the border color
                 context.fillStyle = color;
                 context.fill();
+                context.stroke(); // Draw the border
             }
 
             // Function to map a value to a radius
