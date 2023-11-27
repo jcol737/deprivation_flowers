@@ -134,10 +134,12 @@
         });
 
         var imdLayer = L.layerGroup().addTo(map);
+        var maoriLayer = L.layerGroup().addTo(map);
         var flowersLayer = L.markerClusterGroup({ disableClusteringAtZoom: 16, spiderfyOnMaxZoom: false }).addTo(map); // 14
 
         var overlayMaps = {
             "NZIMD 2018": imdLayer,
+            "Maori population 2018": maoriLayer,
             "Deprivation Flowers": flowersLayer,
             "City labels": labels,
             "City labels (inverted)": whitelabels,
@@ -146,6 +148,8 @@
         L.control.layers(baseMaps, overlayMaps).addTo(map);
 
         var NZIMD_cmap = chroma.scale("BuPu").domain([1, 6181])
+
+        var maori_cmap = chroma.scale("YlOrRd").domain([0, 100])
 
         var customLayer = L.geoJson(null, {
             onEachFeature: function (feature, layer) {
@@ -196,6 +200,34 @@
         });
         omnivore.topojson('https://uoa-eresearch.github.io/cancermap/data/IMD18.topojson', null, customLayer).addTo(imdLayer);
 
+        // Percentage of Maori population by DZ
+        var customLayer1 = L.geoJson(null, {
+            onEachFeature: function (feature, layer) {
+                console.log(feature)
+                var p = feature.properties;
+                // Update the information as required
+                var desc = `Datazone: <b>${p.DZ2018}</b><hr>
+                            Maori population percentage: <b>${p.Maori_PERC}</b>
+                            DHB: ${p.dhb2015_na}<br>
+                            GED: ${p.ged2020nam}<br>
+                            TA: ${p.ta2020name}`;
+                layer.bindPopup(desc)
+
+            },
+            style: function (feature) {
+                return {
+                    fillColor: maori_cmap(feature.properties.Maori_PERC),
+                    fillOpacity: .3,
+                    color: "black",
+                    //dashArray: "2,2",
+                    weight: .5
+                }
+            }
+        });
+        omnivore.topojson('https://jcol737.github.io/deprivation_flowers/IMD2018_join_ethnicity_cen2018_perc_simplified_2pt7.json', null, customLayer1).addTo(maoriLayer);
+        // not showing? need to address this
+        // also adjust layer visibility to off when first opened
+
         var legend = L.control({ position: 'bottomright' });
 
         legend.onAdd = function (map) {
@@ -213,7 +245,11 @@
             for (var i of [1, 1237, 2473, 3709, 4945, 6181]) {
                 imdLegend += `<i style="background: ${NZIMD_cmap(i)}"></i>${i}<br>`;
             }
-            div.innerHTML += imdLegend + "</div>"
+            var maoriLegend = "<div id='maoriLegend'><h4>Maori % population</h4>";
+            for (var i of [0, 20, 40, 60, 80, 100]) {
+                maoriLegend += `<i style="background: ${maori_cmap(i)}"></i>${i}<br>`;
+            }
+            div.innerHTML += imdLegend + maoriLegend + "</div>"
             return div;
         };
 
