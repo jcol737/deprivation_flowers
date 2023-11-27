@@ -133,8 +133,8 @@
             opacity: .8,
         });
 
-        var imdLayer = L.layerGroup().addTo(map);
-        var maoriLayer = L.layerGroup(); //.addTo(map);
+        var imdLayer = L.layerGroup(); //.addTo(map);
+        var maoriLayer = L.layerGroup().addTo(map); //.addTo(map);
         var flowersLayer = L.markerClusterGroup({ disableClusteringAtZoom: 16, spiderfyOnMaxZoom: false }).addTo(map); // 14
 
         var overlayMaps = {
@@ -207,7 +207,7 @@
                 var p = feature.properties;
                 // Update the information as required
                 var desc = `Datazone: <b>${p.DZ2018}</b><hr>
-                            Maori population percentage: <b>${p.Maori_PERC}</b>
+                            Maori population percentage: <b>${p.Maori_PERC}%</b><br>
                             DHB: ${p.dhb2015_na}<br>
                             GED: ${p.ged2020nam}<br>
                             TA: ${p.ta2020name}`;
