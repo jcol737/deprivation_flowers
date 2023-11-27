@@ -134,7 +134,7 @@
         });
 
         var imdLayer = L.layerGroup().addTo(map);
-        var maoriLayer = L.layerGroup().addTo(map);
+        var maoriLayer = L.layerGroup(); //.addTo(map);
         var flowersLayer = L.markerClusterGroup({ disableClusteringAtZoom: 16, spiderfyOnMaxZoom: false }).addTo(map); // 14
 
         var overlayMaps = {
@@ -225,8 +225,6 @@
             }
         });
         omnivore.topojson('https://jcol737.github.io/deprivation_flowers/IMD2018_join_ethnicity_cen2018_perc_WGS_simplified_2pt7.topojson', null, customLayer1).addTo(maoriLayer);
-        // not showing? need to address this
-        // also adjust layer visibility to off when first opened
 
         var legend = L.control({ position: 'bottomright' });
 
